@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+#test for branch ai
 require_relative '../config/environment'
 
 def start
