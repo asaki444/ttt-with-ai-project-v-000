@@ -20,51 +20,31 @@ class Players
       @pos_taken = []
       board.cells.each.with_index do |val,index|
         if val == " "
-          self.available_moves << index
+          @available_moves << index
         elsif val == self.token
           self.pos_taken << index
         end
       end
+       @available_moves
     end
 
     def strategy
-      i = 0
       move = ""
-      def win
-        Game::WIN_COMBINATIONS.each do |win_combination|
-          array = win_combination.find_all{|x| x == token}
-             if array.size == 2
-              move  << win_combination.reject{|x| x == array[0] || x == array[1] || x == array [2]}.to_s
-            end
-          end
-        move
-      end
-        if win(self.token) == " "
-            win("other players token")
-        else
-          win
-        end
-
-        # win_combination.detect do |win_index|
-        #  #checks for the position taken of the opponent and the computer
-        #  #blocks if it is about to win
-        # end
-        # win_combination.detect.with_index do |x,i|
-        #   if x == self.token && @available_moves.include?(i+2) && board.cells[i+1] == self.token
-        #       i+1
-        #   elsif x == self.token && @available_moves.include?(i+1) && board.cells[i+2] == self.token
-        #       i+2
-        #   end
-        #   #wouldnt a nested detect would give us a single index at a time. so I just compared x to the token, and asked if the spot is available.
-
+      def check_for_win
+       Game::WIN_COMBINATIONS.detect do |win|
+              if win[1] == win[0] &&  board.taken?(win[1])
+                move << win[1]
+              elsif win[1] == win[2] && board.taken?(win[2])
+                move << win[2]
+              end
+           end
        end
+
+       if move == ""
+        move = search_moves[0] + 1
+       end
+       move
+     end
     end
-        #i want to use the WIN_COMBINATIONS array to detect our next best move to win.
-        #checking if the token is occupying two out of three winning spots, and hopefully returning the move
-
-        #I think we should use yield twice because the WIN_COMBINATIONS is nested array. However, the IDEA is GREAT! _Niki
-
-  #binding.pry
-
 
 end
