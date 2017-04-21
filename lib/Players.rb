@@ -26,22 +26,27 @@ class Players
           self.pos_taken << index
         end
       end
+       self.available_moves
     end
 
     def strategy
-      self.board.WIN_COMBINATIONS.each do |win_combination|
-        win_combination.detect.with_index do |x,i|
-          x == self.token && self.available_moves.include?(x)
-          #wouldnt a nested detect would give us a single index at a time. so I just compared x to the token, and asked if the spot is available.
-        end
-      end
+      move = ""
+      def check_for_win
+       Game::WIN_COMBINATIONS.detect do |win|
+              if win[1] == win[0] &&  board.taken?(win[1])
+                move << win[1]
+              elsif win[1] == win[2] && board.taken?(win[2])
+                move << win[2]
+              end
+           end
+       end
+       
+       if move == " "
+          search_moves.rand
+        else
+          move
+       end
+     end
     end
-        #i want to use the WIN_COMBINATIONS array to detect our next best move to win.
-        #checking if the token is occupying two out of three winning spots, and hopefully returning the move
-
-        #I think we should use yield twice because the WIN_COMBINATIONS is nested array. However, the IDEA is GREAT! _Niki
-
-  #binding.pry
-  end
 
 end
