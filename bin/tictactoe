@@ -18,9 +18,12 @@ def start
   end
       if player_mode.over? #this doesn't work right now, it ends the game but doesn't ask the player if they want to play again
       puts "Would you like to play again?\n Y or N"
+      answer = ""
       answer = gets.chomp
           if answer == "Y"
-            start
+             start
+           else
+             puts "thanks for playing"
           end
       else
         player_mode.play
